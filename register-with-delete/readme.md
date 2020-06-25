@@ -1,11 +1,16 @@
-# UK Guardians
+Install composer and npm dependencies from the root directory using the following command:
 
-## Development
+composer install -d ./application/ && npm --prefix ./application/ install ./application/
 
-Docker + Laravel
+Copy ./application/.env.example to ./application/.env from the root directory using the following command:
 
-`docker-compose up --build`
+cp ./application/.env.example ./application/.env
 
-`docker exec -it oneui-php-fpm bash`
+Run docker from the root directory using the following command:
 
-`docker exec -it ukg-php-fpm php artisan migrate:fresh --seed`
+docker-compose up --build
+
+In a new terminal window run:
+
+docker exec -it register-php-fpm bash
+php artisan key:generate && php artisan migrate:fresh --seed && php artisan storage:link

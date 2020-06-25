@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cd4dc468-ffb9-4adf-a0e9-3626edc81b59" name="apache" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="/etc/apache2" accessType="MOUNT" />
+      </webServer>
+      <webServer id="4ecd6ddd-efc7-4404-a803-2dfa3640b0ca" name="docker" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="$PROJECT_DIR$" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

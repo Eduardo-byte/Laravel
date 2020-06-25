@@ -1,0 +1,15 @@
+pipelines:
+
+  branches:
+
+    develop:
+      - step:
+          script:
+            # Staging deployment steps
+            - ssh $SSH_USER@$SSH_HOST -p $SSH_PORT 'cd /home/user/www/project-name-stg && sh deploy-stg.sh'
+
+    master:
+      - step:
+          script:
+            # Production deployment steps
+            - ssh $SSH_USER@$SSH_HOST -p $SSH_PORT 'cd /home/user/www/project-name && sh deploy.sh'

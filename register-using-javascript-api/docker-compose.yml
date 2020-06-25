@@ -1,0 +1,61 @@
+version: "3.1"
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: register-using-javascript-api-redis
+
+  mysql:
+    image: mysql:5.7
+    container_name: register-using-javascript-api-mysql
+    working_dir: /application
+    volumes:
+      - ./application:/application
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=register-using-javascript-api
+      - MYSQL_USER=register-using-javascript-api
+      - MYSQL_PASSWORD=secret
+    ports:
+      - "3306:3306"
+
+  webserver:
+    image: nginx:alpine
+    container_name: register-using-javascript-api-webserver
+    working_dir: /application
+    volumes:
+      - ./application:/application
+      - ./support/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - maildev:maildev
+    ports:
+      - "80:80"
+      - "3000:3000"
+
+  php-fpm:
+    build: support/docker/php-fpm
+    container_name: register-using-javascript-api-php-fpm
+    working_dir: /application
+    volumes:
+      - ./application:/application
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: register-using-javascript-api-phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=register-using-javascript-api-mysql
+      - PMA_USER=register-using-javascript-api
+      - PMA_PASSWORD=secret
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - /sessions
+    links:
+      - mysql
+
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - 8282:80
